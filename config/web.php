@@ -5,6 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
 	'id' => 'CRM',
 	'language' => 'ru-RU',
+	'name' => 'Такси аэропорт УФА',
 	'sourceLanguage' => 'en-US',
 	'timeZone' => 'Europe/Moscow',
 	'basePath' => dirname(__DIR__),
