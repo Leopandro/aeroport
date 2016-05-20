@@ -1,0 +1,14 @@
+.group-color {
+    background-color:#d9edf7;
+}
+.list-group-item {
+    padding: 0px;
+}
+.table-nonfluid {
+    width: auto !important;
+}
+.carousel,.item,.active{height:100%;}
+.carousel-inner{height:100%;}
+html {
+    overflow-y: auto;
+}
