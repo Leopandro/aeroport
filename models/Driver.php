@@ -27,6 +27,7 @@ use yii\helpers\ArrayHelper;
 class Driver extends \yii\db\ActiveRecord
 {
 	public $cars;
+	public $tariffs;
     /**
      * @inheritdoc
      */
@@ -42,6 +43,7 @@ class Driver extends \yii\db\ActiveRecord
     {
         return [
             [['town_id', 'car_id', 'phone_number', 'experience'], 'integer'],
+	        [['name'], 'required'],
 	        [['phone_number'], 'match', 'pattern' => '/^([+]?)(7|8|9)\d{9,11}$/i'],
             [['surname', 'name', 'middle_name', 'email'], 'string', 'max' => 64],
 	        [['serial_number'], 'string', 'max' => 50],
@@ -123,6 +125,7 @@ class Driver extends \yii\db\ActiveRecord
 		foreach($rows as $item)
 		{
 			$model = new DriverCar(['driver_id' => $this->id]);
+			$model->scenario = 'save';
 			$model->car_id = $item['car_id'];
 			if ($model->validate())
 				$model->save();
@@ -156,5 +159,15 @@ class Driver extends \yii\db\ActiveRecord
 		{
 			return $arr;
 		}
+	}
+
+	public function loadTariffs()
+	{
+		$model = DriverTariff::findOne(['id' => $this->id]);
+		if (!$model)
+		{
+			$model = new DriverTariff(['id' => $this->id]);
+		}
+		$this->tariffs = $model;
 	}
 }

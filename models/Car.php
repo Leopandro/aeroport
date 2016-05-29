@@ -16,10 +16,13 @@ use yii\helpers\ArrayHelper;
  * @property integer $year
  * @property string $number
  * @property string $color
+ * @property string $image
  * @property integer $number_of_passengers
  */
 class Car extends \yii\db\ActiveRecord
 {
+
+	public $file;
     /**
      * @inheritdoc
      */
@@ -34,7 +37,10 @@ class Car extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company', 'class', 'year', 'number_of_passengers'], 'integer'],
+	        [['image'], 'file', 'extensions' => 'jpg, jpeg, png, gif'],
+            [['company', 'class', 'year', 'number_of_passengers', 'baby_chair', 'conditioner', 'baggage_count'], 'integer'],
+            [['company', 'class', 'year', 'number_of_passengers', 'color', 'number'], 'required'],
+	        [['image'], 'required'],
             [['model', 'number', 'color'], 'string', 'max' => 24],
         ];
     }
@@ -47,18 +53,36 @@ class Car extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'company' => Yii::t('app', 'Company'),
+            'image' => 'Фотография',
             'model' => Yii::t('app', 'Model'),
             'class' => Yii::t('app', 'Class'),
             'year' => Yii::t('app', 'Year'),
             'number' => Yii::t('app', 'Number'),
+            'baby_chair' => 'Детское кресло',
+            'conditioner' => 'Кондиционер',
+            'baggage_count' => 'Мест для багажа',
             'color' => Yii::t('app', 'Color'),
             'number_of_passengers' => Yii::t('app', 'Number Of Passengers'),
         ];
     }
 
+	public function getCarBrand()
+	{
+		return self::getCarBrandsForDropdownList()[$this->company];
+	}
+
 	public static function getCarBrandById($id)
 	{
 		return self::getCarBrandsForDropdownList()[$id];
+	}
+
+	public function upload()
+	{
+		$path = Yii::getAlias('@app/web/files/images/');
+		if (!is_dir($path)) mkdir($path, 0777, true);
+		$filename = Yii::$app->security->generateRandomString(9);
+		$this->file->saveAs($path . $filename . '.' . $this->file->extension);
+		$this->image = $filename . '.' . $this->file->extension;
 	}
 
 	public static function getCarsForDropDownList()
@@ -105,6 +129,25 @@ class Car extends \yii\db\ActiveRecord
 	public static function getClassById($id)
 	{
 		return (self::getClassesForDropdownlist()[$id]);
+	}
+
+	public function getConditioner()
+	{
+		if ($this->conditioner == 0)
+			return 'Нет';
+		else return 'Да';
+	}
+
+	public function getChair()
+	{
+		if ($this->baby_chair == 0)
+			return 'Нет';
+		else return 'Да';
+	}
+
+	public function getCarClass()
+	{
+		return (self::getClassesForDropdownlist()[$this->class]);
 	}
 
 	public function beforeSave($insert)

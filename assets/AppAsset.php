@@ -30,7 +30,7 @@ class AppAsset extends AssetBundle
 //	    "plugins/datepicker/datepicker3.css",
 //	    "plugins/daterangepicker/daterangepicker-bs3.css",
 //	    "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
-//	    'css/common.css',
+	    'css/common.css',
     ];
     public $js = [
 //	    "plugins/jQuery/jQuery-2.1.4.min.js",

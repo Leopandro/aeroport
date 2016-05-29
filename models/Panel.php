@@ -5,23 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "driver_car".
+ * This is the model class for table "panel".
  *
  * @property integer $id
- * @property integer $driver_id
  * @property integer $car_id
  *
  * @property Car $car
- * @property Driver $driver
  */
-class DriverCar extends \yii\db\ActiveRecord
+class Panel extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'driver_car';
+        return 'panel';
     }
 
     /**
@@ -30,10 +28,13 @@ class DriverCar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['driver_id', 'car_id'], 'integer'],
+	        [['car_id', 'driver_id'], 'required'],
+            [['car_id', 'driver_id', 'use_new_tariffs', 'town', 'town_center', 'km_price'], 'integer'],
             [['car_id'], 'exist', 'skipOnError' => true, 'targetClass' => Car::className(), 'targetAttribute' => ['car_id' => 'id']],
             [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Driver::className(), 'targetAttribute' => ['driver_id' => 'id']],
-	        [['car_id'], 'required', 'on' => 'save'],
+	        [['town', 'town_center', 'km_price'], 'required', 'when' => function($model){
+		        return $model->use_new_tariffs;
+	        }],
         ];
     }
 
@@ -44,12 +45,16 @@ class DriverCar extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'driver_id' => 'Driver ID',
-            'car_id' => '',
+            'car_id' => 'Автомобиль',
+            'driver_id' => 'Водитель',
+            'use_new_tariffs' => 'Использовать новые тарифы',
+	        'town' => 'Уфа',
+	        'town_center' => 'Уфа(центр)',
+	        'km_price' => 'Межгород',
         ];
     }
 
-    /**
+	/**
      * @return \yii\db\ActiveQuery
      */
     public function getCar()
@@ -57,11 +62,8 @@ class DriverCar extends \yii\db\ActiveRecord
         return $this->hasOne(Car::className(), ['id' => 'car_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDriver()
-    {
-        return $this->hasOne(Driver::className(), ['id' => 'driver_id']);
-    }
+	public function getDriver()
+	{
+		return $this->hasOne(Driver::className(), ['id' => 'driver_id']);
+	}
 }

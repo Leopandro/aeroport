@@ -87,10 +87,12 @@ class DriverController extends Controller
     {
         $model = new Driver();
 		$model->loadCars();
+	    $model->loadTariffs();
 //	    $modelCar = [new DriverCar()];
         if ($model->load(Yii::$app->request->post())) {
 	        if ($model->save())
 	        {
+		        $model->tariffs->save();
 		        $model->saveCars($_POST['DriverCar']);
 		        return $this->redirect('index');
 	        }
@@ -112,10 +114,13 @@ class DriverController extends Controller
     {
         $model = $this->findModel($id);
 		$model->loadCars();
+	    $model->loadTariffs();
         if ($model->load(Yii::$app->request->post())) {
 	        if ($model->save())
 	        {
 		        $model->saveCars($_POST['DriverCar']);
+		        $model->tariffs->load($_POST);
+		        $model->tariffs->save();
 		        return $this->redirect('index');
 	        }
         } else {

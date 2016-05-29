@@ -20,7 +20,7 @@ class UploadForm extends Model
 
     public function upload($folder = 'images')
     {
-        $path = Yii::getAlias('@app/web/'.$folder.'/');
+        $path = Yii::getAlias('@app/files/'.$folder.'/');
         if (!is_dir($path)) mkdir($path, 0777, true);
         $filename = Yii::$app->security->generateRandomString(9);
         $this->file->saveAs($path . $filename . '.' . $this->file->extension);

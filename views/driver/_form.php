@@ -30,14 +30,12 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'comment')->textarea() ?>
-
 	<?php DynamicFormWidget::begin([
 		'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
 		'widgetBody' => '.container-items', // required: css class selector
 		'widgetItem' => '.item', // required: css class
 		'limit' => 4, // the maximum times, an element can be cloned (default 999)
-		'min' => 1, // 0 or 1 (default 1)
+		'min' => 0, // 0 or 1 (default 1)
 		'insertButton' => '.add-item', // css class
 		'deleteButton' => '.remove-item', // css class
 		'model' => $model->cars[0],
@@ -47,6 +45,21 @@ use wbraganca\dynamicform\DynamicFormWidget;
 			'car_id'
 		],
 	]); ?>
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Тарифы
+		</div>
+		<div class="panel-body">
+			<?= $form->field($model->tariffs, 'town')->textInput() ?>
+
+			<?= $form->field($model->tariffs, 'town_center')->textInput() ?>
+
+			<?= $form->field($model->tariffs, 'km_price')->textInput() ?>
+		</div>
+	</div>
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<i class="fa fa-envelope"></i> Автомобили
@@ -82,6 +95,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
 		</div>
 	</div>
 	<?php DynamicFormWidget::end(); ?>
+
+	<?= $form->field($model, 'comment')->textarea() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

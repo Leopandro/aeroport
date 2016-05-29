@@ -59,7 +59,7 @@ class OrderSearch extends Order
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id' => $this->client_id,
             'date_create' => $this->date_create,
             'date_update' => $this->date_update,
             'datetime_booking' => $this->datetime_booking,

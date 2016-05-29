@@ -81,8 +81,6 @@ class ClientSearch extends Client
 		    'role_id' => [2, 6]
 	    ]);
 
-	    $query->joinWith(UserInfo::tableName());
-
 	    $dataProvider->setSort([
 		    'attributes' => [
 			    'username',
