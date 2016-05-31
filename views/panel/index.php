@@ -97,7 +97,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			        return $result;
 		        }
 	        ],
-
+			[
+				'attribute' => '',
+				'format' => 'raw',
+				'label' => 'Осталось времени(в ч.):',
+				'value' => function($model)
+				{
+					return ceil((($model->date_update + $model->station_time * 3600) - time())/3600);
+				}
+			],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

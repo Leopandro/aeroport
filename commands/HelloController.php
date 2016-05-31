@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use app\models\Panel;
 use yii\console\Controller;
 
 /**
@@ -27,4 +28,19 @@ class HelloController extends Controller
     {
         echo $message . "\n";
     }
+
+	public function actionPanel()
+	{
+		$models = Panel::find()->all();
+		$count = 0;
+		foreach($models as $model)
+		{
+			if ((($model->date_update + $model->station_time * 3600) - time()) < 0)
+			{
+				$count++;
+				$model->delete();
+			}
+		}
+		echo $count;
+	}
 }

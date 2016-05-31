@@ -65,9 +65,17 @@ class PanelController extends Controller
     {
         $model = new Panel();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('/panel/index');
+        if ($model->load(Yii::$app->request->post())) {
+	        $model->date_create = time();
+	        $model->date_update = time();
+	        if ($model->save())
+                return $this->redirect('/panel/index');
+	        else
+		        return $this->render('create', [
+			        'model' => $model,
+		        ]);
         } else {
+	        !$model->station_time ? $model->station_time = 48 : null;
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -84,9 +92,15 @@ class PanelController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-	        return $this->redirect('/panel/index');
-        } else {
+	    if ($model->load(Yii::$app->request->post())) {
+		    $model->date_update = time();
+		    if ($model->save())
+			    return $this->redirect('/panel/index');
+		    else
+			    return $this->render('create', [
+				    'model' => $model,
+			    ]);
+	    } else {
             return $this->render('update', [
                 'model' => $model,
             ]);

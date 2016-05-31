@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'car_id')->dropDownList(\app\models\Car::getCarsForDropDownList()) ?>
 
+	<?= $form->field($model, 'station_time')->textInput() ?>
+
 	<?= $form->field($model, 'use_new_tariffs')->checkbox() ?>
 
 	<div class="panel panel-default">
