@@ -35,7 +35,9 @@ class HelloController extends Controller
 		$count = 0;
 		foreach($models as $model)
 		{
-			if ((($model->date_update + $model->station_time * 3600) - time()) < 0)
+			$time = $model->date_update + $model->station_time * 3600 - time();
+			echo $time;
+			if (($time) < 0 || ($model->date_update == NULL))
 			{
 				$count++;
 				$model->delete();
