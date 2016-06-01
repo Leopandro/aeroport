@@ -38,9 +38,11 @@ class Car extends \yii\db\ActiveRecord
     {
         return [
 	        [['image'], 'file', 'extensions' => 'jpg, jpeg, png, gif'],
+	        [['image'], 'required', 'on' => 'create'],
             [['company', 'class', 'year', 'number_of_passengers', 'baby_chair', 'conditioner', 'baggage_count'], 'integer'],
             [['company', 'class', 'year', 'number_of_passengers', 'color', 'number'], 'required'],
-	        [['image'], 'required'],
+	        [['number'], 'unique'],
+//	        [['image'], 'required'],
             [['model', 'number', 'color'], 'string', 'max' => 24],
         ];
     }

@@ -44,7 +44,7 @@ class DriverTariff extends \yii\db\ActiveRecord
             'id' => 'ID',
             'town' => 'Уфа',
             'town_center' => 'Уфа(центр)',
-            'km_price' => 'Межгород',
+            'km_price' => 'Межгород(руб./км)',
         ];
     }
 

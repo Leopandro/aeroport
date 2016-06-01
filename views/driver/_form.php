@@ -6,6 +6,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 /* @var $this yii\web\View */
 /* @var $model app\models\Driver */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="driver-form">
@@ -28,7 +29,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
 <!--    --><?//= $form->field($model, 'phone_number_2')->textInput() ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+<!--    --><?//= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
 	<?php DynamicFormWidget::begin([
 		'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]

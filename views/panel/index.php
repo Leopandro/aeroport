@@ -93,8 +93,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				        $result =  $model->km_price;
 			        else $result = \app\models\DriverTariff::findOne(['id' => $model->driver_id])->km_price;
 			        if (!$result)
-				        $result = '-';
-			        return $result;
+				        return $result = '-';
+			        return $result.' руб./км';
 		        }
 	        ],
 			[

@@ -12,3 +12,10 @@
 html {
     overflow-y: auto;
 }
+.has-success, .has-success .form-control {
+    /*color:#000000 !important;*/
+    border-color:#d2d6de !important;
+}
+.form-group.has-success label{
+    color: #000000;
+}

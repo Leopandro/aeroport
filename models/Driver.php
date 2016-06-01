@@ -50,7 +50,7 @@ class Driver extends \yii\db\ActiveRecord
             [['comment'], 'string', 'max' => 640],
             [['car_id'], 'exist', 'skipOnError' => true, 'targetClass' => Car::className(), 'targetAttribute' => ['car_id' => 'id']],
             [['town_id'], 'exist', 'skipOnError' => true, 'targetClass' => Town::className(), 'targetAttribute' => ['town_id' => 'id']],
-	        [['email'], 'email']
+//	        [['email'], 'email']
         ];
     }
 
@@ -122,25 +122,20 @@ class Driver extends \yii\db\ActiveRecord
 	public function saveCars($rows = [])
 	{
 		$query = DriverCar::deleteAll(['driver_id' => $this->id]);
-		foreach($rows as $item)
-		{
-			$model = new DriverCar(['driver_id' => $this->id]);
-			$model->scenario = 'save';
-			$model->car_id = $item['car_id'];
-			if ($model->validate())
-				$model->save();
-		}
+		if (!empty($rows))
+			foreach($rows as $item)
+			{
+				$model = new DriverCar(['driver_id' => $this->id]);
+				$model->scenario = 'save';
+				$model->car_id = $item['car_id'];
+				if ($model->validate())
+					$model->save();
+			}
 	}
 
 	public function getDriverCars($id)
 	{
 		$arr = [];
-		$result = (new Query())
-			->select('id,company,model,number')
-			->from(Car::tableName())
-			->where(['id' => $this->car_id])
-			->one();
-		$arr[$result['id']] = Car::getCarBrandById($result['company']).' '.$result['model'].' '.$result['number'];
 		$result = (new Query())
 			->select('car.*')
 			->from('car')

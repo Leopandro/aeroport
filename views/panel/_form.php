@@ -6,6 +6,32 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Panel */
 /* @var $form yii\widgets\ActiveForm */
+$urlGetCars = \yii\helpers\Url::to('/driver/get-drop-down');
+$script = <<< JS
+function replaceCarsDropDown()
+{
+	$.ajax({
+		url : '$urlGetCars',
+		type : 'post',
+		data : {
+			id : $('#panel-driver_id').val(),
+			//order_id: $model->id
+		},
+		success : function(data){
+			$('#panel-car_id').empty();
+			$('#panel-car_id').append(data);
+		}
+	})
+}
+
+$('#panel-driver_id').on('input', function(){
+	replaceCarsDropDown();
+});
+replaceCarsDropDown();
+JS;
+
+
+$this->registerJs($script, \yii\web\View::POS_LOAD);
 ?>
 
 <div class="panel-form">

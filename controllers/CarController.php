@@ -73,12 +73,16 @@ class CarController extends Controller
     public function actionCreate()
     {
         $model = new Car();
-//		$model->scenario = 'create';
+		$model->scenario = 'create';
         if ($model->load(Yii::$app->request->post())) {
 	        $model->file = UploadedFile::getInstance($model, 'image');
 	        $model->upload();
 	        if ($model->save())
 		        return $this->redirect('index');
+	        else
+		        return $this->render('create', [
+			        'model' => $model,
+		        ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
