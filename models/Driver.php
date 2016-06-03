@@ -42,7 +42,7 @@ class Driver extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['town_id', 'car_id', 'phone_number', 'experience'], 'integer'],
+            [['town_id', 'car_id', 'phone_number', 'experience', 'rating', 'license'], 'integer'],
 	        [['name'], 'required'],
 	        [['phone_number'], 'match', 'pattern' => '/^([+]?)(7|8|9)\d{9,11}$/i'],
             [['surname', 'name', 'middle_name', 'email'], 'string', 'max' => 64],
@@ -71,6 +71,8 @@ class Driver extends \yii\db\ActiveRecord
 		    'email' => Yii::t('app', 'Email'),
 		    'comment' => Yii::t('app', 'Comment'),
 		    'experience' => Yii::t('app', 'Опыт работы'),
+		    'rating' => Yii::t('app', 'Рейтинг'),
+		    'license' => Yii::t('app', 'Лицензия'),
 	    ];
     }
 

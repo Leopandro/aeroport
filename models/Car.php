@@ -23,7 +23,15 @@ class Car extends \yii\db\ActiveRecord
 {
 
 	public $file;
-    /**
+	public $car_inside;
+
+	public function __construct()
+	{
+		$this->loadCarInsideImages();
+		parent::__construct();
+	}
+
+	/**
      * @inheritdoc
      */
     public static function tableName()
@@ -81,10 +89,10 @@ class Car extends \yii\db\ActiveRecord
 	public function upload()
 	{
 		$path = Yii::getAlias('@app/web/files/images/');
-		if (!is_dir($path)) mkdir($path, 0777, true);
+//		if (!is_dir($path)) mkdir($path, 0777, true);
 		$filename = Yii::$app->security->generateRandomString(9);
-		$this->file->saveAs($path . $filename . '.' . $this->file->extension);
-		$this->image = $filename . '.' . $this->file->extension;
+		$this->image->saveAs($path . $filename . '.' . $this->image->extension);
+		$this->image = $filename . '.' . $this->image->extension;
 	}
 
 	public static function getCarsForDropDownList()
@@ -126,6 +134,30 @@ class Car extends \yii\db\ActiveRecord
 			5 => 'S',
 			6 => 'M'
 		];
+	}
+
+	public function loadCarInsideImages()
+	{
+		$result = CarInside::find()->where(['car_id' => $this->id])->all();
+		$this->car_inside[0] = new CarInside();
+		if (!empty($result))
+		{
+			foreach($result as $model)
+			{
+				$this->car_inside[$model->id] = $model;
+			}
+		}
+	}
+
+	public function saveCarInsideImages()
+	{
+		$result = CarInside::deleteAll(['car_id' => $this->id]);
+		foreach($this->car_inside as $model)
+		{
+			$model->car_id = $this->id;
+			if ($model->uploadImage())
+				$model->save(true);
+		}
 	}
 
 	public static function getClassById($id)

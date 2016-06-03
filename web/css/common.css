@@ -19,3 +19,7 @@ html {
 .form-group.has-success label{
     color: #000000;
 }
+
+input[disabled] {
+    cursor:default !important;
+}

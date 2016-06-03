@@ -27,6 +27,15 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
     <?= $form->field($model, 'experience')->textInput() ?>
 
+    <?= $form->field($model, 'license')->radioList([
+	    '0' => 'Нет',
+	    '1' => 'Да',
+    ]) ?>
+
+    <?= $form->field($model, 'rating')->textInput([
+	    'disabled' => true
+    ]) ?>
+
 <!--    --><?//= $form->field($model, 'phone_number_2')->textInput() ?>
 
 <!--    --><?//= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>

@@ -75,8 +75,14 @@ class CarController extends Controller
         $model = new Car();
 		$model->scenario = 'create';
         if ($model->load(Yii::$app->request->post())) {
-	        $model->file = UploadedFile::getInstance($model, 'image');
-	        $model->upload();
+	        $image = UploadedFile::getInstance($model, 'image');
+	        if ($image)
+	        {
+		        $model->image = $image;
+		        $model->upload();
+	        }
+//	        $model->car_inside = $_POST['CarInside'];
+	        $model->saveCarInsideImages();
 	        if ($model->save())
 		        return $this->redirect('index');
 	        else
@@ -99,10 +105,23 @@ class CarController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+		$model->loadCarInsideImages();
         if ($model->load(Yii::$app->request->post())) {
-	        $model->file = UploadedFile::getInstance($model, 'image');
-	        $model->upload();
+	        $image = UploadedFile::getInstance($model, 'image');
+	        if ($image)
+	        {
+		        $model->image = $image;
+		        $model->upload();
+	        }
+	        else
+	        {
+		        $model->image = $model->getOldAttribute('image');
+	        }
+	        foreach($model->car_inside as $index => $CarInside)
+	        {
+		        $model->car_inside[$index]->image = UploadedFile::getInstance($CarInside, "[$index]image");
+	        }
+	        $model->saveCarInsideImages();
 	        if ($model->save())
 	            return $this->redirect('index');
         } else {
