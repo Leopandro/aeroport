@@ -30,8 +30,9 @@ class DriverTariff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['town', 'town_center', 'km_price'], 'integer'],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Driver::className(), 'targetAttribute' => ['id' => 'id']],
+            [['town', 'town_center'], 'integer'],
+	        [['km_price'], 'string', 'max' => 128],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Car::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 

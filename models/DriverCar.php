@@ -33,7 +33,7 @@ class DriverCar extends \yii\db\ActiveRecord
             [['driver_id', 'car_id'], 'integer'],
             [['car_id'], 'exist', 'skipOnError' => true, 'targetClass' => Car::className(), 'targetAttribute' => ['car_id' => 'id']],
             [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Driver::className(), 'targetAttribute' => ['driver_id' => 'id']],
-	        [['car_id'], 'required', 'on' => 'save'],
+	        [['car_id', 'driver_id'], 'required', 'on' => 'save'],
         ];
     }
 
@@ -44,7 +44,7 @@ class DriverCar extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'driver_id' => 'Driver ID',
+            'driver_id' => '',
             'car_id' => '',
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Car;
 use app\models\DriverCar;
 use dektrium\user\filters\AccessRule;
 use Yii;
@@ -12,7 +13,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\helpers\Html;
 /**
  * DriverController implements the CRUD actions for Driver model.
  */
@@ -86,14 +87,9 @@ class DriverController extends Controller
     public function actionCreate()
     {
         $model = new Driver();
-		$model->loadCars();
-	    $model->loadTariffs();
-//	    $modelCar = [new DriverCar()];
         if ($model->load(Yii::$app->request->post())) {
 	        if ($model->save())
 	        {
-		        $model->tariffs->save();
-		        $model->saveCars($_POST['DriverCar']);
 		        return $this->redirect('index');
 	        }
         } else {
@@ -113,14 +109,9 @@ class DriverController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		$model->loadCars();
-	    $model->loadTariffs();
         if ($model->load(Yii::$app->request->post())) {
 	        if ($model->save())
 	        {
-		        $model->saveCars($_POST['DriverCar']);
-		        $model->tariffs->load($_POST);
-		        $model->tariffs->save();
 		        return $this->redirect('index');
 	        }
         } else {
@@ -159,23 +150,32 @@ class DriverController extends Controller
         }
     }
 
-	public function actionGetDropDown()
+	public function actionGetDropDownDrivers()
 	{
 		if (Yii::$app->request->isAjax)
 		{
 			$id = $_POST['id'];
-			$driver = Driver::findOne(['id' => $id]);
-			$result = $driver->getDriverCars($id);
-			$return = '<option value="">Выберите авто</option>';
-			foreach ($result as $key => $item)
+			$car = Car::findOne(['id' => $id]);
+			$result = $car->getDrivers();
+			$arr = [];
+			if ($result)
 			{
-				if ($driver->car_id == $key)
+				foreach ($result as $key => $item)
 				{
-					$return .= '<option value='.$key.' selected>'.$item.'</option>';
+					$arr[$key] = $item['name'].' '.$item['surname'];
 				}
-				else
-					$return .= '<option value='.$key.'>'.$item.'</option>';
 			}
+			$return = Html::dropDownList('drop', null, $arr);
+//			$return = '<option value="">Выберите авто</option>';
+//			foreach ($result as $key => $item)
+//			{
+//				if ($driver->car_id == $key)
+//				{
+//					$return .= '<option value='.$key.' selected>'.$item.'</option>';
+//				}
+//				else
+//					$return .= '<option value='.$key.'>'.$item.'</option>';
+//			}
 			\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 			return $return;
 		}

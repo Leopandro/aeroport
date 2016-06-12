@@ -72,7 +72,7 @@ class Driver extends \yii\db\ActiveRecord
 		    'comment' => Yii::t('app', 'Comment'),
 		    'experience' => Yii::t('app', 'Опыт работы'),
 		    'rating' => Yii::t('app', 'Рейтинг'),
-		    'license' => Yii::t('app', 'Лицензия'),
+//		    'license' => Yii::t('app', 'Лицензия'),
 	    ];
     }
 
@@ -103,7 +103,13 @@ class Driver extends \yii\db\ActiveRecord
 			->select('*')
 			->from(Driver::tableName())
 			->all();
-		return ArrayHelper::map($result, 'id', 'name');
+		$arr = [];
+		if ($result)
+			foreach ($result as $item)
+			{
+				$arr[$item['id']] = $item['surname'].' '.$item['name'];
+			}
+		return $arr;
 	}
 
 	public function loadCars()
@@ -156,15 +162,5 @@ class Driver extends \yii\db\ActiveRecord
 		{
 			return $arr;
 		}
-	}
-
-	public function loadTariffs()
-	{
-		$model = DriverTariff::findOne(['id' => $this->id]);
-		if (!$model)
-		{
-			$model = new DriverTariff(['id' => $this->id]);
-		}
-		$this->tariffs = $model;
 	}
 }

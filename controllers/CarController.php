@@ -74,6 +74,7 @@ class CarController extends Controller
     {
         $model = new Car();
 		$model->scenario = 'create';
+	    $model->loadTariffs();
         if ($model->load(Yii::$app->request->post())) {
 	        $image = UploadedFile::getInstance($model, 'image');
 	        if ($image)
@@ -83,6 +84,9 @@ class CarController extends Controller
 	        }
 //	        $model->car_inside = $_POST['CarInside'];
 	        $model->saveCarInsideImages();
+	        $model->tariffs->load($_POST);
+	        $model->tariffs->save();
+	        $model->drivers->load($_POST);
 	        if ($model->save())
 		        return $this->redirect('index');
 	        else
@@ -106,6 +110,7 @@ class CarController extends Controller
     {
         $model = $this->findModel($id);
 		$model->loadCarInsideImages();
+	    $model->loadTariffs();
         if ($model->load(Yii::$app->request->post())) {
 	        $image = UploadedFile::getInstance($model, 'image');
 	        if ($image)
@@ -122,6 +127,9 @@ class CarController extends Controller
 		        $model->car_inside[$index]->image = UploadedFile::getInstance($CarInside, "[$index]image");
 	        }
 	        $model->saveCarInsideImages();
+	        $model->tariffs->load($_POST);
+	        $model->tariffs->save();
+	        $model->drivers = ($_POST['DriverCar']);
 	        if ($model->save())
 	            return $this->redirect('index');
         } else {

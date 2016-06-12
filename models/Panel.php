@@ -20,6 +20,7 @@ class Panel extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public static function tableName()
     {
         return 'panel';
@@ -32,9 +33,11 @@ class Panel extends \yii\db\ActiveRecord
     {
         return [
 	        [['car_id', 'driver_id', 'station_time'], 'required'],
-            [['car_id', 'driver_id', 'use_new_tariffs', 'town', 'town_center', 'km_price', 'station_time'], 'integer'],
+            [['car_id', 'driver_id', 'use_new_tariffs', 'town', 'town_center', 'station_time'], 'integer'],
+	        [['km_price'], 'string', 'max' => 128],
             [['car_id'], 'exist', 'skipOnError' => true, 'targetClass' => Car::className(), 'targetAttribute' => ['car_id' => 'id']],
             [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Driver::className(), 'targetAttribute' => ['driver_id' => 'id']],
+	        [['car_id'], 'unique', 'message' => 'Такое авто уже есть на стоянке']
 //	        [['town', 'town_center', 'km_price'], 'required', 'when' => function($model){
 //		        return $model->use_new_tariffs;
 //	        }],
