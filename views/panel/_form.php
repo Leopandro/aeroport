@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\Panel */
 /* @var $form yii\widgets\ActiveForm */
 $urlGetDrivers = \yii\helpers\Url::to('/driver/get-drop-down-drivers');
+$urlGetTariff = \yii\helpers\Url::to('/panel/get-cars-tariff');
 $script = <<< JS
 function replaceCarsDropDown()
 {
@@ -14,7 +15,7 @@ function replaceCarsDropDown()
 		url : '$urlGetDrivers',
 		type : 'post',
 		data : {
-			id : $('#panel-car_id').val(),
+			id : $('#panel_car_value_select2').val(),
 			//order_id: $model->id
 		},
 		success : function(data){
@@ -23,26 +24,63 @@ function replaceCarsDropDown()
 		}
 	})
 }
-
-$('#panel-car_id').on('input', function(){
+function getTariffPrice()
+{
+	$.ajax({
+		url : '$urlGetTariff',
+		type : 'post',
+		data : {
+			id : $('#panel_car_value_select2').val(),
+		},
+		success : function(data){
+			data = JSON.parse(data);
+			if (data != null)
+			{
+				$('#panel-town').val(data['town']);
+				$('#panel-town_center').val(data['town_center']);
+				$('#panel-km_price').val(data['km_price']);
+			}
+			else {
+				$('#panel-town').val('');
+				$('#panel-town_center').val('');
+				$('#panel-km_price').val('');
+			}
+		}
+	});
+}
+$('#panel_car_value_select2').on('change', function(){
 	replaceCarsDropDown();
+	getTariffPrice()
 });
 replaceCarsDropDown();
+if ('$model->isNewRecord' == 1)
+	getTariffPrice();
+	console.log('$model->isNewRecord');
+//$('.main-form').removeClass('hidden');
 JS;
 
 
 $this->registerJs($script, \yii\web\View::POS_LOAD);
 ?>
 
-<div class="panel-form">
+<div class="panel-form main-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-	<?= $form->field($model, 'car_id')->dropDownList(\app\models\Car::getCarsForDropDownList()) ?>
+<!--	--><?//= $form->field($model, 'car_id')->dropDownList(\app\models\Car::getCarsForDropDownList(), [
+//		'prompt' => '-- Выберите --'
+//	]) ?>
 
-	<?= $form->field($model, 'driver_id')->dropDownList(\app\models\Driver::getDriversForDropdownList(),
+	<?= $form->field($model, 'car_id')->widget(Select2::className(), [
+		'data' => \app\models\Car::getCarsForDropDownList(),
+		'options' => [
+			'id' => 'panel_car_value_select2'
+		]
+	]) ?>
+
+	<?= $form->field($model, 'driver_id')->dropDownList([],
 		[
-			'prompt' => 'Выберите водителя'
+			'prompt' => '-- Выберите --'
 		])	?>
 
 <!--	--><?//= $form->field($model, 'car_id')->dropDownList([], ['prompt' => 'Выберите авто'])	?>
@@ -65,7 +103,7 @@ $this->registerJs($script, \yii\web\View::POS_LOAD);
 	</div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Применить' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

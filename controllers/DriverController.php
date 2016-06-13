@@ -162,10 +162,12 @@ class DriverController extends Controller
 			{
 				foreach ($result as $key => $item)
 				{
-					$arr[$key] = $item['name'].' '.$item['surname'];
+					$arr[$item['id']] = $item['name'].' '.$item['surname'];
 				}
 			}
-			$return = Html::dropDownList('drop', null, $arr);
+			$return = Html::dropDownList('drop', null, $arr, [
+				'prompt' => '-- Выберите --'
+			]);
 //			$return = '<option value="">Выберите авто</option>';
 //			foreach ($result as $key => $item)
 //			{

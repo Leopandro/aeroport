@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		        {
 			        if ($model->use_new_tariffs)
 				        $result =  $model->town_center;
-			        else $result = \app\models\DriverTariff::findOne(['id' => $model->driver_id])->town_center;
+			        else $result = \app\models\CarTariff::findOne(['id' => $model->driver_id])->town_center;
 			        if (!$result)
 				        $result = '-';
 			        return $result;
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		        {
 			        if ($model->use_new_tariffs)
 				        $result =  $model->town;
-			        else $result = \app\models\DriverTariff::findOne(['id' => $model->driver_id])->town;
+			        else $result = \app\models\CarTariff::findOne(['id' => $model->driver_id])->town;
 			        if (!$result)
 				        $result = '-';
 			        return $result;
@@ -91,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		        {
 			        if ($model->use_new_tariffs)
 				        $result =  $model->km_price;
-			        else $result = \app\models\DriverTariff::findOne(['id' => $model->driver_id])->km_price;
+			        else $result = \app\models\CarTariff::findOne(['id' => $model->driver_id])->km_price;
 			        if (!$result)
 				        return $result = '-';
 			        return $result;

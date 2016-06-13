@@ -93,12 +93,11 @@ class Car extends \yii\db\ActiveRecord
 
 	public function getDrivers()
 	{
-//		$ids = DriverCar::findAll(['car_id' => 'id']);
-		$ids = Yii::$app->db->createCommand("select id from driver_car where car_id = $this->id")->execute();
 		$drivers = (new Query())
 			->select('driver.*')
 			->from(Driver::tableName())
-			->where("driver.id in ($ids)")
+			->leftJoin(DriverCar::tableName(), 'driver_car.driver_id = driver.id')
+			->where('driver_car.car_id = 3')
 			->all();
 		return $drivers;
 	}
@@ -223,10 +222,10 @@ class Car extends \yii\db\ActiveRecord
 
 	public function loadTariffs()
 	{
-		$model = DriverTariff::findOne(['id' => $this->id]);
+		$model = CarTariff::findOne(['id' => $this->id]);
 		if (!$model)
 		{
-			$model = new DriverTariff(['id' => $this->id]);
+			$model = new CarTariff(['id' => $this->id]);
 		}
 		$this->tariffs = $model;
 	}

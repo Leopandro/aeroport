@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "driver_tariff".
+ * This is the model class for table "car_tariff".
  *
  * @property integer $id
  * @property integer $town
@@ -14,14 +14,14 @@ use Yii;
  *
  * @property Driver $id0
  */
-class DriverTariff extends \yii\db\ActiveRecord
+class CarTariff extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'driver_tariff';
+        return 'car_tariff';
     }
 
     /**
@@ -54,6 +54,6 @@ class DriverTariff extends \yii\db\ActiveRecord
      */
     public function getId0()
     {
-        return $this->hasOne(Driver::className(), ['id' => 'id']);
+        return $this->hasOne(Car::className(), ['id' => 'id']);
     }
 }

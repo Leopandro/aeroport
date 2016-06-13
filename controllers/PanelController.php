@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\CarTariff;
 use Yii;
 use app\models\Panel;
 use app\models\PanelSearch;
@@ -81,6 +82,18 @@ class PanelController extends Controller
             ]);
         }
     }
+
+	public function actionGetCarsTariff()
+	{
+		if (Yii::$app->request->isAjax)
+		{
+			$id = $_POST['id'];
+			$model = CarTariff::findOne(['id' => $id]);
+			\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+			$model = json_encode($model->attributes);
+			return $model;
+		}
+	}
 
     /**
      * Updates an existing Panel model.

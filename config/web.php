@@ -53,6 +53,11 @@ $config = [
 					'js' => [
 						'js/redactor.min.js' => '../../js/redactor.min.js'
 					],
+				],
+				'dmstr\adminlte\Asset' => [
+					'css' => [
+						'css/AdminLTE.min.css' => '@web/dist/css/skins/AdminLTE.css'
+					]
 				]
 			]
 		],
@@ -148,8 +153,8 @@ if (YII_ENV_DEV) {
 	$config['bootstrap'][] = 'gii';
 	$config['modules']['gii'] = [
 		'class' => 'yii\gii\Module',
-		'allowedIPs' => ['*']
-//        'allowedIPs' => ['127.0.0.1', '::1']
+//		'allowedIPs' => ['*']
+        'allowedIPs' => ['127.0.0.1', '::1']
 	];
 }
 
