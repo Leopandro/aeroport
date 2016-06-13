@@ -64,7 +64,7 @@ class Car extends \yii\db\ActiveRecord
             [['company', 'class', 'year', 'number_of_passengers', 'baby_chair', 'conditioner', 'baggage_count'], 'integer'],
             [['company', 'class', 'year', 'number_of_passengers', 'color', 'number'], 'required'],
 	        [['number'], 'unique'],
-	        [['number'], 'match', 'pattern' => '/[А-Я]\d{3}[А-Я]{2}\d{2,3}/', 'message' => 'Номер должен быть вида "А777БВ00"'],
+	        [['number'], 'match', 'pattern' => '/^[А-Я]\d{3}[А-Я]{2}\d{2,3}$/u', 'message' => 'Номер должен быть вида "А777БВ00"'],
             [['model', 'number', 'color'], 'string', 'max' => 24],
         ];
     }
