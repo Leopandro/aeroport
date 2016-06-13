@@ -97,7 +97,7 @@ class Car extends \yii\db\ActiveRecord
 			->select('driver.*')
 			->from(Driver::tableName())
 			->leftJoin(DriverCar::tableName(), 'driver_car.driver_id = driver.id')
-			->where('driver_car.car_id = 3')
+			->where('driver_car.car_id = ' . $this->id)
 			->all();
 		return $drivers;
 	}
